@@ -1,0 +1,2 @@
+# DojoMaster
+A Mage game
