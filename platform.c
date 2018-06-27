@@ -44,16 +44,16 @@ word analog_read(byte apin)
 
 void initialise( void )
 {
-	DDRB = (1<<SDA) | (1<<DC) | (1<<SCL) | (1<<SND); // Configure Outputs
-	
-	ADMUX = 0x00 | BTNS;	// Configure analog input
-	
-	/* Initialise Timer */
-    TCCR1 = 0x86;  			// CTC Mode, CK/32 prescale (250)
-    TIMSK |= 0x40; 			// Enable OCIE1A Compare Interrupt
+    DDRB = (1<<SDA) | (1<<DC) | (1<<SCL) | (1<<SND); // Configure Outputs
     
-    sei();					// Enable interrupts
-	
+    ADMUX = 0x00 | BTNS;    // Configure analog input
+    
+    /* Initialise Timer */
+    TCCR1 = 0x86;           // CTC Mode, CK/32 prescale (250)
+    TIMSK |= 0x40;          // Enable OCIE1A Compare Interrupt
+    
+    sei();                  // Enable interrupts
+    
                  //                     F_CPU   Prescale  Timer frequency (1 ms)
     OCR1A = 250; // Set compare value (8000000Hz / 32) / 1000Hz
 }

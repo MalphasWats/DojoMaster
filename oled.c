@@ -43,8 +43,8 @@ void shift_out(byte val, byte order)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
     }
 }
 
@@ -54,9 +54,7 @@ void shift_out_block(const __flash byte *block, byte inverted)
     byte b;
     for (byte i = 0; i < 8; i++)  
     {
-        // see this: https://gcc.gnu.org/onlinedocs/gcc-4.7.0/gcc/Named-Address-Spaces.html
-        //b = pgm_read_byte(block+i);
-		b = block[i];
+        b = block[i];
         if (inverted)
             b = ~b;
         
@@ -69,8 +67,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 1) )
         {
@@ -81,8 +79,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 2) )
         {
@@ -93,8 +91,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 3) )
         {
@@ -105,8 +103,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 4) )
         {
@@ -117,8 +115,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 5) )
         {
@@ -129,8 +127,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 6) )
         {
@@ -141,8 +139,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
         
         if ( b & (1 << 7) )
         {
@@ -153,8 +151,8 @@ void shift_out_block(const __flash byte *block, byte inverted)
             PORTB &= ~(1 << SDA);
         }
         
-        PORTB |= 1 << SCL; 		// HIGH
-        PORTB &= ~(1 << SCL); 	// LOW
+        PORTB |= 1 << SCL;      // HIGH
+        PORTB &= ~(1 << SCL);   // LOW
     }
 }
 
@@ -248,13 +246,13 @@ void set_display_row(byte row)
 
 void set_display_col_row(byte col, byte row)
 {
-    PORTB &= ~(1 << DC);        			// COMMAND
+    PORTB &= ~(1 << DC);                    // COMMAND
     
-    send_command(0xB0 + row);         		// PAGEADDR
+    send_command(0xB0 + row);               // PAGEADDR
     send_command((col*8) & 0x0F);           // Column start address (0 = reset)
     send_command(0x10 | ((col*8) >> 4));    // LOW COL ADDR
     
-    PORTB |= 1 << DC;           			// DATA
+    PORTB |= 1 << DC;                       // DATA
 }
 
 void display_block(const byte *block, byte col, byte row)
