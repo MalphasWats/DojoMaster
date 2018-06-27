@@ -49,7 +49,7 @@ void shift_out(byte val, byte order)
 }
 
 /* Un-rolling the loop makes this much faster */
-void shift_out_block(const byte *block, byte inverted)
+void shift_out_block(const __flash byte *block, byte inverted)
 {
     byte b;
     for (byte i = 0; i < 8; i++)  
