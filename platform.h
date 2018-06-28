@@ -17,8 +17,20 @@
 #define DC    3
 
 #define BTNS  2
+#define BTN_DELAY       180
+#define BTN_THRESHOLD   2
+
+/* Button ADC Values */
+#define _UP     695
+#define _DOWN   852
+#define _LEFT   930
+#define _RIGHT  608
+#define _A      512
+#define _B      320
+#define _C      252
 
 #define SPLASH_DELAY    1500
+
 
 typedef unsigned char byte;
 typedef unsigned int word;
@@ -60,6 +72,6 @@ word millis( void );
 
 //https://github.com/SpenceKonde/ATTinyCore/blob/master/avr/cores/tiny/wiring_analog.c
 //http://www.technoblogy.com/show?TWD
-word analog_read(byte apin);
+word read_buttons();
 
 #endif

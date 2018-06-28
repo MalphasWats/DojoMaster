@@ -1,7 +1,7 @@
 from PIL import Image
 
 MAP = "map"
-OFFSET = 0
+OFFSET = 11
 
 im = Image.open("spritesheet.png")
 pixels = list(im.getdata())

@@ -29,7 +29,7 @@ void delay_us( word us )
    }
 }
 
-word analog_read(byte apin)
+word read_buttons()
 {
     
     ADCSRA = 0xC7;
