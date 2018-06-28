@@ -11,7 +11,7 @@ const byte LANES[4][3][2] = {
     { {7, 2}, {7, 1}, {7, 0}, },
     { {7, 4}, {7, 5}, {7, 6}, },
     { {8, 3}, {9, 3}, {10, 3},},
-    { {5, 3}, {4, 3}, {3, 3}, },
+    { {6, 3}, {5, 3}, {4, 3}, },
 };
 
 int main (void) 
@@ -115,7 +115,7 @@ int main (void)
         if (t - btn_timer >= BTN_DELAY)
             btn_timer = 0;
         
-        if (t >= player_timer) //TODO: Edge case where t+dur overflows
+        if (player_timer && t >= player_timer) //TODO: Edge case where t+dur overflows
         {
             player_timer = 0;
             player -= 4;
@@ -123,19 +123,20 @@ int main (void)
         
         if (map_dirty)
         {
+            set_display_col_row(0, 0);
             for (byte row=0 ; row<SCREEN_ROWS ; row++)
             {
-                set_display_col_row(0, row);  //TODO: don't think SSD1306 needs this
+                //set_display_col_row(0, row);
                 for (byte col=0 ; col<SCREEN_COLUMNS ; col++)
                 {
-                    shift_out_block(&GLYPHS[MAP[ SCREEN_ROWS * row + col ]*8], FALSE);
+                    shift_out_block(&GLYPHS[MAP[ SCREEN_COLUMNS * row + col ]*8], FALSE);
                 }
             }
             
             word _s = score;
             for (byte d=0 ; d<4 ; d++)
             {
-                display_block( &GLYPHS[((_s % 10)+1)*8], 4-d, 0);
+                display_block( &GLYPHS[((_s % 10)+1)*8], 4-d, 7);
                 _s = _s / 10;
             }
             
@@ -166,7 +167,7 @@ int main (void)
             }
             baddies[ rng() % 4 ] |= 1<<2;
             game_timer = t + game_timer_delay;
-            if (game_timer_delay > 300)
+            if (game_timer_delay > 550)
                 game_timer_delay -= SPEED_STEP;
             
              map_dirty = TRUE;
