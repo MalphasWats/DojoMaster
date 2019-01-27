@@ -1,7 +1,7 @@
 #ifndef SPIKE_H
 # define SPIKE_H
 
-#define F_CPU 16000000
+#define F_CPU 8000000
 
 #define ever ;;
 
@@ -110,7 +110,7 @@ void delay_ms( word ms );
 // https://github.com/sourceperl/millis/blob/master/millis.c
 // https://www.avrfreaks.net/forum/tut-c-newbies-guide-avr-timers?page=all
 void initialise( void );
-word millis( void );
+unsigned long millis( void );
 
 /* OLED Function */
 void shift_out_byte(byte val);

@@ -4,7 +4,7 @@
 #include <avr/interrupt.h>
 //#include <util/delay.h>
 
-volatile word _millis = 0;
+volatile unsigned long _millis = 0;
 
 word rngSEED = 5;
 word rng( void )
@@ -101,7 +101,7 @@ void note(word note, word duration)
     OCR3A = duration * NOTE_DURATION_MULTIPLIER;
 }
 
-word millis( void )
+unsigned long millis( void )
 {
     return _millis;
 }

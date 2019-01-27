@@ -2,8 +2,8 @@
 
 #include "main.h"
 
-word t = 0;
-word btn_timer = 0;
+unsigned long t = 0;
+unsigned long btn_timer = 0;
 
 const byte LANES[4][3][2] = {
     { {7, 2}, {7, 1}, {7, 0}, },
@@ -38,7 +38,7 @@ int main (void)
     for (byte i=0 ; i<4 ; i++)
         baddies[i] = 0;
     
-    word game_timer = 0;
+    unsigned long game_timer = 0;
     word game_timer_delay = 1500;
     
     word score = 0;
