@@ -12,8 +12,8 @@ C_FLAGS    = -Wl,--gc-sections -Wl,--relax -ffunction-sections -fdata-sections -
 # fuse settings:
 # use http://www.engbedded.com/fusecalc
 #FUSES      = -U lfuse:w:0x42:m -U hfuse:w:0x99:m -U efuse:w:0xff:m  # 1mhz
-FUSES      = -U lfuse:w:0xc2:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m  # 8mhz
-#FUSES      = -U lfuse:w:0xfe:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m  # 16mhz
+#FUSES      = -U lfuse:w:0xc2:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m  # 8mhz
+FUSES      = -U lfuse:w:0xfe:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m  # 16mhz
 
 AVRDUDE = sudo avrdude -b 200000 $(PROGRAMMER) -p $(DEVDUDE)
 AVRDUDE_FAST = sudo avrdude -b 1000000 $(PROGRAMMER) -p $(DEVDUDE)

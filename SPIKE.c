@@ -40,8 +40,8 @@ void initialise( void )
     TCCR0B = 0x03;          // 1/64 CLK Prescale.
     
                  //                     F_CPU   Prescale  Timer frequency (1 ms)
-    OCR0A = 125; // Set compare value (8000000Hz / 64) / 1000Hz
-    //OCR0A = 250; // Set compare value (16000000Hz / 64) / 1000Hz
+    //OCR0A = 125; // Set compare value (8000000Hz / 64) / 1000Hz
+    OCR0A = 250; // Set compare value (16000000Hz / 64) / 1000Hz
     
     TIMSK0 |= 0x02;         // Enable OCR0A Compare Interrupt
     
