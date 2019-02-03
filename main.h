@@ -62,6 +62,8 @@ static const __flash byte GLYPHS[] = {
 
 #define SPEED_STEP 25
 
+#define BTN_DELAY 150
+
 static const __flash byte MAP[] = {
 	0,   0,   0,  31,   0,   0,   0,  27,   0,   0,   0,  31,   0,   0,   0,   0,
 	0,   0,   0,  32,  33,  34,   0,  29,   0,   0,   0,  32,  33,  34,   0,   0,

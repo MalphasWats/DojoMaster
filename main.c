@@ -2,8 +2,8 @@
 
 #include "main.h"
 
-unsigned long t = 0;
-unsigned long btn_timer = 0;
+dword t = 0;
+dword btn_timer = 0;
 
 const byte LANES[4][3][2] = {
     { {7, 2}, {7, 1}, {7, 0}, },
@@ -15,19 +15,6 @@ const byte LANES[4][3][2] = {
 int main (void) 
 {    
     initialise();
-    // display logo
-    for(byte y=0 ; y<LOGO_HEIGHT ; y++)
-        for(byte x=0 ; x<LOGO_WIDTH ; x++)
-            buffer[(y+2)*SCREEN_WIDTH + (x+16)] = LOGO[y*LOGO_WIDTH + x];
-            draw();
-            
-    note(_A4, 90);
-    delay_ms(180);
-    note(_C5, 60);
-    delay_ms(120);
-    note(_E5, 60);
-    
-    delay_ms(SPLASH_DELAY);
     
     byte buttons;
     
@@ -38,7 +25,7 @@ int main (void)
     for (byte i=0 ; i<4 ; i++)
         baddies[i] = 0;
     
-    unsigned long game_timer = 0;
+    dword game_timer = 0;
     word game_timer_delay = 1500;
     
     word score = 0;
@@ -139,7 +126,7 @@ int main (void)
             }
             baddies[ rng() % 4 ] |= 1<<2;
             game_timer = t + game_timer_delay;
-            if (game_timer_delay > 550)
+            if (game_timer_delay > 450)
                 game_timer_delay -= SPEED_STEP;
         }
         

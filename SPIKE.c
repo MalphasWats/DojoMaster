@@ -2,12 +2,15 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-//#include <util/delay.h>
 
-volatile unsigned long _millis = 0;
+volatile dword _millis = 0;
 
-word rngSEED = 5;
-word rng( void )
+const __memx Tune *current_tune;
+byte current_note;
+bool playing = FALSE;
+
+byte rngSEED = 5;
+byte rng( void )
 {
     rngSEED = (rngSEED*rngA +rngC) % rngM;
     return rngSEED;
@@ -46,6 +49,7 @@ void initialise( void )
     TIMSK0 |= 0x02;         // Enable OCR0A Compare Interrupt
     
     /* Configure sound timers */
+    //TODO: Use Proper bit names
     TCCR1A = 0b01000001;    // phase correct pwm mode
     TCCR1B = 0b00010010;    // 1/8 Prescale
     
@@ -72,12 +76,18 @@ void initialise( void )
     
     sei();                  // Enable interrupts
     
+    play_tune(&STARTUP_CHIME);
+    
     /* Setup Display */
     initialise_oled();
     
-    clear_buffer();
+    for(byte y=0 ; y<(LOGO.height>>3) ; y++)
+        for(byte x=0 ; x<LOGO.width ; x++)
+            buffer[(y+2)*SCREEN_WIDTH + (x+16)] = LOGO.data[y*LOGO.width + x];
     
-    PORTB &= ~(1 << CS);                // LOW (Enabled)
+    draw();
+    
+    delay_ms(SPLASH_DELAY);
 }
 
 ISR(TIMER0_COMPA_vect)
@@ -87,21 +97,61 @@ ISR(TIMER0_COMPA_vect)
 
 ISR(TIMER3_COMPA_vect)
 {
-    //TODO: Needs to manage a queue
+    if (playing)
+    {
+        if (current_note < current_tune->length)
+        {
+            byte note_index = current_tune->score[current_note] & 0x0f;
+            byte beat_index = current_tune->score[current_note] >> 4;
+            OCR1A = NOTES[note_index];
+            TCNT3 = 0;
+            OCR3A = BEATS[beat_index] * BEAT_ATOM;
+            current_note += 1;
+            return;
+        }
+        else
+        {
+            playing = FALSE;
+        }
+    }
+    
     OCR3A = 0;
     OCR1A = 0;
 }
 
-void note(word note, word duration)
+void note(byte note, word duration)
 {
-    //TODO: Needs to manage a queue
-    
-    OCR1A = note;
-    TCNT3 = 0;
-    OCR3A = duration * NOTE_DURATION_MULTIPLIER;
+    if (!playing)
+    {
+        OCR1A = NOTES[note];
+        TCNT3 = 0;
+        OCR3A = duration * NOTE_DURATION_MULTIPLIER;
+    }
 }
 
-unsigned long millis( void )
+void play_tune(const __memx Tune *t)
+{
+    if (!playing)
+    {
+        current_note = 0;
+        current_tune = t;
+        playing = TRUE;
+        TCNT3 = 0;
+        OCR3A = 1;
+    }
+}
+
+void stop_tune()
+{
+    if (playing)
+    {
+        OCR3A = 0;
+        OCR1A = 0;
+        playing = FALSE;
+    }
+}
+
+dword millis( void )
 {
     return _millis;
 }
@@ -173,6 +223,8 @@ void initialise_oled(void)
     
     PORTB |= 1 << CS;                   // HIGH (Disabled)
     PORTB |= 1 << DC;                   // DATA
+    delay_ms(1);
+    PORTB &= ~(1 << CS);                // LOW (Enabled)
 }
 
 void clear_buffer(void)
@@ -207,5 +259,5 @@ void display_on(void)
 
 void click( void )
 {
-    note(_A9, 15);
+    note(_C5, 15);
 }
