@@ -1,5 +1,5 @@
 #ifndef SPIKE_H
-# define SPIKE_H
+#define SPIKE_H
 
 #define F_CPU 16000000
 
@@ -118,8 +118,13 @@ static const __flash byte BEATS[8] = {
 };
 
 #define SEMIBREVE   0 << 4
+#define DMINIM      1 << 4
+#define MINIM       2 << 4
+#define CROTCHET    3 << 4
 #define QUAVER      4 << 4
-#define DMINIM      2 << 4
+#define SQUAVER     5 << 4
+#define DSQUAVER    6 << 4
+#define HDSQUAVER   7 << 4
 
 // Starting at 128 BPM
 #define BEAT_ATOM 8 * 4 * NOTE_DURATION_MULTIPLIER   // 8 Milliseconds
@@ -132,7 +137,7 @@ typedef struct Tune {
 static const __flash Tune STARTUP_CHIME = {
     .length = 3,
     .score = {
-        QUAVER | _A4,       QUAVER | _C5,       DMINIM | _E5,
+        DSQUAVER | _A4,       DSQUAVER | _C5,       SQUAVER | _E5,
     },
 };
 
